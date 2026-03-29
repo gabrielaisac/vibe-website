@@ -8,10 +8,14 @@
  * Doar HTML + Tailwind CSS = fundația de bază.
  */
 
+const scrollWithOffset = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const top = el.getBoundingClientRect().top + window.scrollY - 80;
+  window.scrollTo({ top, behavior: 'smooth' });
+};
+
 export default function HeroStarter() {
-  const scrollToFooter = () => {
-    document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' });
-  };
   return (
     <section className="relative min-h-screen flex items-center justify-center">
       {/* VIDEO FUNDAL */}
@@ -34,7 +38,7 @@ export default function HeroStarter() {
         style={{ animationDelay: '1.5s' }}
       >
       <button
-        onClick={scrollToFooter}
+        onClick={() => scrollWithOffset('features')}
         className="text-white/75 hover:text-white transition-colors duration-300 animate-bounce"
         aria-label="Scroll în jos"
       >
@@ -83,14 +87,16 @@ export default function HeroStarter() {
           className="animate-fade-in-up flex flex-col sm:flex-row gap-4 justify-center items-center"
           style={{ animationDelay: '1.1s' }}
         >
-          <a
-            href="#meniu"
+          <button
+            onClick={() => scrollWithOffset('meniu')}
             className="px-8 py-4 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg"
           >
             Vezi Meniul
-          </a>
+          </button>
           <a
-            href="#locatie"
+            href="https://maps.google.com/?q=Gara+Piatra+Neamt"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-white/10 shadow-lg"
           >
             Vizitează-ne
