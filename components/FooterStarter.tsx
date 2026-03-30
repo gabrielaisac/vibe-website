@@ -13,7 +13,7 @@ export default function FooterStarter() {
           © 2026 Vibe Caffè. Construit cu Next.js + Tailwind CSS.
         </p>
         <p className="text-gray-600 text-sm mt-2">
-          Landing page creat de{' '}
+          Site creat de{' '}
           <span className="text-gray-400 font-medium">Gabriela Isac</span>
           {' '}·{' '}
           <span className="text-gray-500">Vibe Coder</span>
