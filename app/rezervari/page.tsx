@@ -113,7 +113,7 @@ export default function RezervariPage() {
       const res = await fetch('/api/rezervari', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, data_ora: `${selectedDate}T${selectedTime}:00` }),
+        body: JSON.stringify({ ...form, data_ora: new Date(`${selectedDate}T${selectedTime}:00`).toISOString() }),
       });
       const json = await res.json();
       if (!res.ok) { setError(json.error); setLoading(false); return; }

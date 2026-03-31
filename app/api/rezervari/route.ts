@@ -26,6 +26,14 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Validare email — trebuie să conțină @
+  if (!email.includes('@')) {
+    return NextResponse.json(
+      { error: 'Adresa de email nu este validă.' },
+      { status: 400 }
+    );
+  }
+
   // Validare nume — doar litere și spații
   if (!/^[a-zA-ZăâîșțĂÂÎȘȚ\s]+$/.test(nume.trim())) {
     return NextResponse.json(
@@ -62,4 +70,61 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ success: true, rezervare: data }, { status: 201 });
+}
+
+const STATUSURI_VALIDE = ['în așteptare', 'confirmat', 'respins'];
+
+export async function PATCH(req: NextRequest) {
+  const body = await req.json();
+  const { id, status } = body;
+
+  if (!id || !status) {
+    return NextResponse.json(
+      { error: 'Câmpurile id și status sunt obligatorii.' },
+      { status: 400 }
+    );
+  }
+
+  if (!STATUSURI_VALIDE.includes(status)) {
+    return NextResponse.json(
+      { error: `Status invalid. Valorile acceptate: ${STATUSURI_VALIDE.join(', ')}.` },
+      { status: 400 }
+    );
+  }
+
+  const { data, error } = await supabase
+    .from('rezervari')
+    .update({ status })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true, rezervare: data });
+}
+
+export async function DELETE(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get('id');
+
+  if (!id) {
+    return NextResponse.json(
+      { error: 'Parametrul id este obligatoriu.' },
+      { status: 400 }
+    );
+  }
+
+  const { error } = await supabase
+    .from('rezervari')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true });
 }
