@@ -94,6 +94,12 @@ export default function HeroStarter() {
             Vezi Meniul
           </button>
           <a
+            href="/rezervari"
+            className="px-8 py-4 bg-teal-500 hover:bg-teal-400 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg"
+          >
+            Rezervă o masă
+          </a>
+          <a
             href="https://maps.google.com/?q=Gara+Piatra+Neamt"
             target="_blank"
             rel="noopener noreferrer"
